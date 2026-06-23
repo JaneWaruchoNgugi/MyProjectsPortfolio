@@ -1,0 +1,15 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isPortfolioAdmin() {
+      return request.auth != null && request.auth.token.email == 'waruchojanen@gmail.com';
+    }
+    match /portfolio/{allPaths=**} {
+      allow read: if true;
+      allow write: if isPortfolioAdmin()
+        && request.resource.size < 10 * 1024 * 1024
+        && (request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf');
+    }
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

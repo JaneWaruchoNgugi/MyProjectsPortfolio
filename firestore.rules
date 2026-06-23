@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isPortfolioAdmin() {
+      return request.auth != null && request.auth.token.email == 'waruchojanen@gmail.com';
+    }
+    match /portfolio/{document} {
+      allow read: if true;
+      allow create, update, delete: if isPortfolioAdmin();
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
