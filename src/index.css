@@ -1,2 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600&display=swap');
-:root{font-family:Manrope,sans-serif;color:#17171b;background:#f8f7f3;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;--ink:#17171b;--muted:#65656e;--paper:#f8f7f3;--line:#d9d8d1;--orange:#ff6534;--navy:#17182f}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px}body,button,a{font-family:inherit}a{color:inherit}button{color:inherit}#root{min-height:100vh}::selection{background:#ffb49b;color:#17171b}
+@import "tailwindcss";
+
+/* Swiss grid on charcoal: one brass accent, hairline structure, generous space. */
+@theme {
+  --color-bg: #0c0c0d;
+  --color-surface: #131315;
+  --color-surface-2: #1a1a1d;
+  --color-line: #ffffff14;
+  --color-line-2: #ffffff24;
+  --color-fg: #ededeb;
+  --color-mute: #8d8d92;
+  --color-dim: #5c5c62;
+  --color-accent: #e8b86b;
+  --color-accent-ink: #1a1306;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root { color-scheme: dark !important; }
+html { background: var(--color-bg); color: var(--color-fg); }
+@layer base { button, input { color: inherit; } }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  font-feature-settings: "ss01";
+}
+h1, h2, h3 { text-wrap: balance; }
+::selection { background: var(--color-accent); color: var(--color-accent-ink); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 6px; }
+
+.gutter {
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 768px) { .gutter { padding-left: 40px; padding-right: 40px; } }
+
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-mute); }
+.tabular { font-variant-numeric: tabular-nums; }
+
+.noise::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 70; opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 50s linear infinite; }
+@keyframes scrolldot { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
+.scrolldot { animation: scrolldot 2.2s var(--ease-out-expo) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .scrolldot { animation: none; }
+}
